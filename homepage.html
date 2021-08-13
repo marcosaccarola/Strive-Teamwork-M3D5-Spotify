@@ -313,7 +313,7 @@
                 <div class="card gm-card">
                   <div class="gm-card-info">
                     <div>
-                      <img
+                      <img id="141730922" onclick="loadAlbums(this.id)"
                         src="https://i.scdn.co/image/ab67616d00001e029e2f95ae77cf436017ada9cb"
                         class="card-img gm-img"
                         alt="..."
@@ -373,7 +373,7 @@
                 <div class="card gm-card">
                   <div class="gm-card-info">
                     <div>
-                      <img id = "" onclick="loadAlbums(this.id)"
+                      <img id = "159826232" onclick="loadAlbums(this.id)"
                         src="https://i.scdn.co/image/ab67616d00001e023e0698e4ae5ffb82a005aeeb"
                         class="card-img gm-img"
                         alt="..."
@@ -1133,7 +1133,8 @@
       // toQueenAlbum.addEventListener("click", linkToQueenAlbum);
 
       
-      let toAlbumDetails = document.querySelectorAll("img")
+      const toAlbumDetails = document.querySelectorAll("img")
+      const albumWrapper = document.querySelector("#album-wrapper")
 
       function linkToAlbumDetails () {
         window.location.href = "albumdetails.html"
@@ -1147,18 +1148,39 @@
         // loadAlbums()
       } 
 
-      let album
+      let album = []
 
       function loadAlbums(query) {
         fetch(`https://striveschool-api.herokuapp.com/api/deezer/album/${query}`)
           .then((r) => r.json())
           .then((_albums) => {
-            // album = _albums;
-            // console.log(album);
-            console.log(_albums)
+            album = _albums;
+            console.log(album);
+            displayAlbum()
           })
           .catch((err) => console.error(err.message));
       }
+
+      /* function displayAlbum(album = _albums) {
+        albumWrapper.innerHTML = "";
+
+        _albums.forEach((album) => {
+          albumWrapper.innerHTML += `
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+              <div class="card">
+                <img src="${album.cover_medium}" class="img-fluid card-img-top" alt="${
+            book.title
+          }">
+                <div class="card-body">
+                  <h5 class="card-title">${album.title}</h5>
+                  <p class="card-text">${album.release_date}</p>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+      } */
+      
     </script>
   </body>
 </html>
