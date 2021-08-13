@@ -23,14 +23,14 @@
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&display=swap");
     </style>
-    <link href="style.css" rel="stylesheet" />
+    <link href="homepagewithsearch.css" rel="stylesheet" />
 
     <title>Spotify</title>
   </head>
   <body>
     <div class="main-container">
       <div class="body-container">
-        <div class="navbar-left">
+        <div class="navbar-left position-fixed">
           <div class="container logo">
             <i class="fab fa-spotify"></i>
             <span class="spotify-font-logo"
@@ -103,7 +103,7 @@
         </div>
         <div class="nav-left-bg"></div>
         <div class="info-right">
-          <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
             <div class="nav-container d-flex">
               <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
@@ -122,7 +122,7 @@
                   type="text"
                   placeholder="Search..."
                   id="searchBar"
-                  onchange="searchArtistAlbum(this.value)"
+                  onchange="searchArtistAlbum()"
                 />
               </div>
 
@@ -978,7 +978,7 @@
             </div>
           </div>
         </div>
-        <div class="container friend-list">
+        <div class="container friend-list position-fixed">
           <div class="friend-activity">
             <h5>Friend activity</h5>
             <i class="bi bi-person-plus btn-add-friend"></i>
@@ -1028,12 +1028,12 @@
         </div>
       </div>
 
-      <div class="install-app">
+      <div class="install-app position-fixed">
         <i class="bi bi-arrow-down-circle"></i>
         <span>Install App</span>
       </div>
 
-      <div class="now-playing-bar">
+      <div class="now-playing-bar position-fixed">
         <div class="row no-gutters">
           <div class="col-md-3">
             <div class="current-song-col">
@@ -1135,21 +1135,23 @@
     ></script>
 
     <script>
-      let baseValue = document.querySelector("#searchBar").value;
-      let basePage = document.querySelector(".dynamicContent").innerHTML;
+      let basePage = [];
+      basePage.push(document.querySelector(".dynamicContent").innerHTML);
       let results = [];
 
-      function searchArtistAlbum(inputField) {
-        let firstInput = `https://deezerdevs-deezer.p.rapidapi.com/search?q=${inputField}`;
+      function searchArtistAlbum() {
+        let firstInput = `https://deezerdevs-deezer.p.rapidapi.com/search?q=${
+          document.querySelector("#searchBar").value
+        }`;
         results = [];
         const row = document.querySelector(".dynamicContent");
-        if (inputField === null) {
-          row.innerHTML = basePage;
-        }
-        if (row.innerHTML === basePage) {
+        if (row.innerHTML === basePage[0]) {
           row.innerHTML = "";
         }
-        if (inputField !== "") {
+        if (document.querySelector("#searchBar").value == "") {
+          row.innerHTML = basePage[0];
+        }
+        if (document.querySelector("#searchBar").value != "") {
           row.classList.add("row");
           getData(firstInput);
         }
