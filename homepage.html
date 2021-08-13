@@ -1151,7 +1151,7 @@
             .then((result) => {
               console.log(result);
               result.data.forEach((dataChunk) => {
-                results.push({ ...results, ...dataChunk });
+                results.push({ ...dataChunk });
               });
               getData(result.next);
             })
