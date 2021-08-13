@@ -118,6 +118,12 @@
                     ></a>
                   </li>
                 </ul>
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  id="searchBar"
+                  onchange="searchArtistAlbum(this.value)"
+                />
               </div>
 
               <div class="user-profile">
@@ -1120,6 +1126,40 @@
     ></script>
 
     <script>
+      let results = [];
+
+      function searchArtistAlbum(inputField) {
+        let firstInput = `https://deezerdevs-deezer.p.rapidapi.com/search?q=${inputField}`;
+        results = [];
+        getData(firstInput);
+      }
+      function getData(searchInput) {
+        let fetchInput = `https://strive-proxy.herokuapp.com/${searchInput}`;
+        if (fetchInput !== `https://strive-proxy.herokuapp.com/undefined`) {
+          fetch(fetchInput, {
+            method: "GET",
+            headers: {
+              "x-rapidapi-key":
+                "6a6d399535msh94e6c026a6844cdp1dd69cjsn5ac8a74f3bf5",
+              "x-rapidapi-host": "deezerdevs-deezer.p.rapidapi.com",
+            },
+          })
+            .then((response) => {
+              console.log(response);
+              return response.json();
+            })
+            .then((result) => {
+              console.log(result);
+              result.data.forEach((dataChunk) => {
+                results.push({ ...results, ...dataChunk });
+              });
+              getData(result.next);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      }
       function linkToQueen() {
         window.location.href = "artist.html";
       }
